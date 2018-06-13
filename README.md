@@ -1,2 +1,3 @@
-# iostat-parser
+# iostat-tool
+
 parse and structuralize iostat output
