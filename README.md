@@ -6,6 +6,7 @@ parse and structuralize iostat output
 
 * Python >= 3.4
   * iostat-tool uses [asyncio](https://docs.python.org/3/library/asyncio.html) to monitor output of iostat
+* [Matplotlib](https://matplotlib.org/)
 * Support output of iostat for Linux only
   * `iostat` command needs `-t` argument to get timestamp, and `-ymxt 1` arguments are recommended
 ```bash
@@ -28,6 +29,7 @@ Install `iostat-tool` package from the repository.
 
 ```bash
 (iostat-tool) $ git clone https://github.com/t2y/iostat-tool.git
+(iostat-tool) $ cd iostat-tool
 (iostat-tool) $ python setup.py develop
 ```
 
@@ -62,6 +64,10 @@ optional arguments:
 ```
 
 ## How to use
+
+This is sample image rendered by matplotlib.
+
+![](tests/fixtures/sample-iostat.png)
 
 ### there is already an iostat.ouput as data file
 
@@ -98,7 +104,7 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
 ### run iostat and logging the output
 
 * monitor iostat command running
-  * `iostat -yxmt 1
+  * almost the same as `iostat -yxmt 1 | tee my-iostat.log`
 
 ```bash
 (iostat-tool) $ iostat-cli --output my-iostat.log --fig-output my-scatter.png monitor --iostat-args "-yxmt 1"
