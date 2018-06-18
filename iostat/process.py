@@ -62,13 +62,17 @@ def read_stream(queue, args):
                 scatter.save()
 
 
-def cancel_tasks(future):
+def cancel_tasks():
+    # TODO: confirm detailed behavior
+    for task in asyncio.Task.all_tasks():
+        task.cancel()
+
+
+def finish_tasks(future):
     status_code = future.result()
     if status_code != 0:
         log.error('process was not finished normally: %d', status_code)
-
-    for task in asyncio.Task.all_tasks():
-        task.cancel()
+    cancel_tasks()
 
 
 def run_iostat(args):
@@ -78,10 +82,12 @@ def run_iostat(args):
     future = asyncio.Future()
     queue = asyncio.Queue(maxsize=args.max_queue_size, loop=event_loop)
     asyncio.ensure_future(run_process(future, command_and_args, queue))
-    future.add_done_callback(cancel_tasks)
+    future.add_done_callback(finish_tasks)
     try:
         event_loop.run_until_complete(read_stream(queue, args))
         event_loop.run_forever()
+    except KeyboardInterrupt:
+        cancel_tasks()
     except asyncio.CancelledError:
         pass
     finally:
