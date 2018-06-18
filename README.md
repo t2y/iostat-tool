@@ -33,6 +33,8 @@ Install `iostat-tool` package from the repository.
 (iostat-tool) $ python setup.py develop
 ```
 
+### Base CLI options
+
 Confirm `iostat-cli` works as below.
 
 ```bash
@@ -61,6 +63,45 @@ optional arguments:
   --until UNTIL         set until datetime, format: yyyymmddHHMISS
   -v, --verbose         set verbose mode
   --version             show program version
+```
+
+### Sub Commands
+
+#### plot
+
+Create image file rendered by matplotlib from output of iostat.
+
+```bash
+(iostat-tool) $ iostat-cli plot --help
+usage: iostat-cli plot [-h] [--plot-type {plotter,scatter}]
+                       [--subplots {io_rqm,iops,io_transfer,%util,avgrq-sz,avgqu-sz,await,svctm} [{io_rqm,iops,io_transfer,%util,avgrq-sz,avgqu-sz,await,svctm} ...]]
+                       [--vlines VLINES [VLINES ...]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --plot-type {plotter,scatter}
+                        set plot type ("plotter" by default)
+  --subplots {io_rqm,iops,io_transfer,%util,avgrq-sz,avgqu-sz,await,svctm} [{io_rqm,iops,io_transfer,%util,avgrq-sz,avgqu-sz,await,svctm} ...]
+                        set subplots to show
+  --vlines VLINES [VLINES ...]
+                        set vertical line, format: yyyymmddHHMISS
+```
+
+#### monitor
+
+Monitor and logging output of `iostat` command.
+
+```bash
+(iostat-tool) $ iostat-cli monitor --help
+usage: iostat-cli monitor [-h] [--iostat-args IOSTAT_ARGS]
+                          [--max-queue-size MAX_QUEUE_SIZE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --iostat-args IOSTAT_ARGS
+                        set arguments for iostat
+  --max-queue-size MAX_QUEUE_SIZE
+                        set queue size to read iostat output
 ```
 
 ## How to use
