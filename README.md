@@ -20,17 +20,17 @@ Create virtualenv to install `iostat-tool`.
 
 ```bash
 $ mkdir virtualenvs
-$ virtualenv -p python3 virtualenvs/iostat-tool
+$ virtualenv -p python3 virtualenvs/iostat
 $ source virtualenvs/iostat-tool/bin/activate
-(iostat-tool) $
+(venv) $
 ```
 
 Install `iostat-tool` package from the repository.
 
 ```bash
-(iostat-tool) $ git clone https://github.com/t2y/iostat-tool.git
-(iostat-tool) $ cd iostat-tool
-(iostat-tool) $ python setup.py develop
+(venv) $ git clone https://github.com/t2y/iostat-tool.git
+(venv) $ cd iostat-tool
+(venv) $ python setup.py develop
 ```
 
 ### Base CLI options
@@ -38,7 +38,7 @@ Install `iostat-tool` package from the repository.
 Confirm `iostat-cli` works as below.
 
 ```bash
-(iostat-tool) $ iostat-cli --help
+(venv) $ iostat-cli --help
 usage: iostat-cli [-h] [--backend BACKEND] [--data DATA]
                   [--fig-output FIGOUTPUT] [--fig-size FIGSIZE]
                   [--output OUTPUT] [--disks DISKS [DISKS ...]]
@@ -72,7 +72,7 @@ optional arguments:
 Create image file rendered by matplotlib from output of iostat.
 
 ```bash
-(iostat-tool) $ iostat-cli plot --help
+(venv) $ iostat-cli plot --help
 usage: iostat-cli plot [-h] [--plot-type {plotter,scatter}]
                        [--subplots {io_rqm,iops,io_transfer,%util,avgrq-sz,avgqu-sz,await,svctm} [{io_rqm,iops,io_transfer,%util,avgrq-sz,avgqu-sz,await,svctm} ...]]
                        [--vlines VLINES [VLINES ...]]
@@ -92,7 +92,7 @@ optional arguments:
 Monitor and logging output of `iostat` command.
 
 ```bash
-(iostat-tool) $ iostat-cli monitor --help
+(venv) $ iostat-cli monitor --help
 usage: iostat-cli monitor [-h] [--iostat-args IOSTAT_ARGS]
                           [--max-queue-size MAX_QUEUE_SIZE]
 
@@ -115,8 +115,8 @@ This is sample image rendered by matplotlib.
 * show all subplots of /dev/sda and cpu average
 
 ```bash
-(iostat-tool) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png plot
-(iostat-tool) $ file my-iostat.png
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png plot
+(venv) $ file my-iostat.png
 my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
 ```
 
@@ -124,7 +124,7 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
   * filter `io_rqm` and `iops` with `--subplots`
 
 ```bash
-(iostat-tool) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png plot --subplots io_rqm iops
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png plot --subplots io_rqm iops
 ```
 
 * show any range of date time
@@ -132,14 +132,14 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
   * filter until 2018-06-13 14:11:30 with `--until`
 
 ```bash
-(iostat-tool) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm
 ```
 
 * show vertical lines into graph
   * 2018-06-13 14:11:10 and 2018-06-13 14:11:20 with `--vlines`
 
 ```bash
-(iostat-tool) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm --vlines 20180613141110 20180613141120
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm --vlines 20180613141110 20180613141120
 ```
 
 ### run iostat and logging the output
@@ -148,7 +148,7 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
   * almost the same as `iostat -yxmt 1 | tee my-iostat.log`
 
 ```bash
-(iostat-tool) $ iostat-cli --output my-iostat.log --fig-output my-scatter.png monitor --iostat-args "-yxmt 1"
+(venv) $ iostat-cli --output my-iostat.log --fig-output my-scatter.png monitor --iostat-args "-yxmt 1"
 ...
 06/13/2018 10:11:07 PM
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
@@ -166,7 +166,7 @@ avg-cpu:  %user   %nice %system %iowait  %steal   %idle
 ```
 
 ```bash
-(iostat-tool) $ file my-iostat.log my-scatter.png
+(venv) $ file my-iostat.log my-scatter.png
 my-iostat.log:  ASCII text
 my-scatter.png: PNG image data, 1800 x 1300, 8-bit/color RGBA, non-interlaced
 ```
