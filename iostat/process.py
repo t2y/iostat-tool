@@ -56,7 +56,8 @@ def read_stream(queue, args):
 
                     for stat in parser.parse_line(line):
                         # note: get stat for previous date entry
-                        scatter.scatter(stat)
+                        if parser.filter(stat):
+                            scatter.scatter(stat)
         except:
             if args.backend == 'Agg':
                 scatter.save()
