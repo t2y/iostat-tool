@@ -1,6 +1,8 @@
-include MANIFEST.in
-include LICENSE
-include *.rst
+include *.ini
 include *.md
+include *.py
+include *.rst
+include LICENSE
+include MANIFEST.in
 recursive-include iostat *.py
-recursive-include tests *.py
+recursive-include tests *.py *.png *.output

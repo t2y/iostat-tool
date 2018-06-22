@@ -1,9 +1,11 @@
 import argparse
+import csv
 import logging
 
 from .consts import DEVICE_SUBPLOTS
 from .consts import PLOT_TYPES, PLOT_TYPE_PLOTTER, PLOT_TYPE_SCATTER
 from .consts import SUB_COMMAND_CSV, SUB_COMMAND_MONITOR, SUB_COMMAND_PLOT
+from .csv import write_csv
 from .parser import Parser
 from .utils import get_logger
 from .utils import parse_datetime
@@ -37,7 +39,7 @@ def sep_type(s):
     if s == _COMMA:
         return ','
     elif s == _TAB:
-        return '\n'
+        return '\t'
     else:
         raise argparse.ArgumentTypeError('separator is wrong')
 
@@ -45,11 +47,16 @@ def sep_type(s):
 def parse_csv_argument(subparsers):
     csv_parser = subparsers.add_parser(SUB_COMMAND_CSV)
     csv_parser.set_defaults(
-        separator=',',
+        dialect='excel',
+        separator=_COMMA,
     )
     csv_parser.add_argument(
-        '--separator', action='store', choices=[_COMMA, _TAB],
-        help='set separator'
+        '--dialect', action='store', choices=csv.list_dialects(),
+        help='set dialect for csv writer, default is excel'
+    )
+    csv_parser.add_argument(
+        '--separator', action='store', choices=[_COMMA, _TAB], type=sep_type,
+        help='set separator, default is comma'
     )
 
 
@@ -180,11 +187,10 @@ def main():
             return
 
         parser = Parser(args)
-        stats = [stat for stat in parser.parse()]
-
         if args.subcommand == SUB_COMMAND_CSV:
-            print('to be implemented')
+            write_csv(args, parser)
         elif args.subcommand == SUB_COMMAND_PLOT:
+            stats = [stat for stat in parser.parse()]
             if args.plot_type == PLOT_TYPE_PLOTTER:
                 from .plotter import Plotter
                 plotter = Plotter(args, stats)

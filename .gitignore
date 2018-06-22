@@ -1,5 +1,7 @@
-iostat.png
 iostat.log
+iostat.png
+iostat_cpu.csv
+iostat_devices.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
