@@ -1,6 +1,6 @@
 # iostat-tool
 
-parse and structuralize iostat output
+parse and visualize iostat output
 
 ## Requirements
 
@@ -67,6 +67,23 @@ optional arguments:
 
 ### Sub Commands
 
+#### csv
+
+Create csv/tsv file from output of iostat.
+
+```bash
+(venv) $ iostat-cli csv --help
+usage: iostat-cli csv [-h] [--dialect {excel,excel-tab,unix}]
+                      [--separator {comma,tab}]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --dialect {excel,excel-tab,unix}
+                        set dialect for csv writer, default is excel
+  --separator {comma,tab}
+                        set separator, default is comma
+```
+
 #### plot
 
 Create image file rendered by matplotlib from output of iostat.
@@ -112,6 +129,8 @@ This is sample image rendered by matplotlib.
 
 ### there is already an iostat.ouput as data file
 
+#### plot
+
 * show all subplots of /dev/sda and cpu average
 
 ```bash
@@ -140,6 +159,26 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
 
 ```bash
 (venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm --vlines 20180613141110 20180613141120
+```
+
+#### csv
+
+* output 2 csv files (iostat_cpu.csv and iostat_devices.csv)
+
+```bash
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --output iostat.csv csv
+(venv) $ ls iostat_*.csv
+iostat_cpu.csv		iostat_devices.csv
+(venv) $ head -n 3 iostat_*.csv
+==> iostat_cpu.csv <==
+datetime,%user,%nice,%system,%iowait,%steal,%idle
+2018-06-13 14:10:50,0.47,0.0,0.24,0.18,0.0,99.11
+2018-06-13 14:10:51,3.07,0.0,0.66,0.09,0.0,96.18
+
+==> iostat_devices.csv <==
+datetime,device,rrqm/s,wrqm/s,r/s,w/s,rMB/s,wMB/s,avgrq-sz,avgqu-sz,await,r_await,w_await,svctm,%util
+2018-06-13 14:10:50,sdd,0.07,45.88,1.57,0.59,0.08,0.18,246.55,0.26,121.04,1.28,436.94,2.07,0.45
+2018-06-13 14:10:50,sdh,0.07,45.78,1.59,0.6,0.08,0.18,245.64,0.22,101.97,1.17,367.51,1.89,0.41
 ```
 
 ### run iostat and logging the output
