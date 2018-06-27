@@ -1,16 +1,12 @@
+import os
 import re
 import sys
 
 from setuptools import setup
 
-
-try:
-    import pypandoc
-    LONG_DESCRIPTION = '\n'.join([
-        pypandoc.convert('README.md', 'rst'),
-    ])
-except (IOError, ImportError):
-    LONG_DESCRIPTION = ''
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 main_py = open('iostat/main.py').read()
 metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", main_py))
@@ -18,8 +14,9 @@ metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", main_py))
 setup(
     name='iostat-tool',
     version=metadata['version'],
-    description='parse and structuralize iostat output',
-    long_description=LONG_DESCRIPTION,
+    description='parse and visualize iostat output',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Development Status :: 4 - Beta',
@@ -38,8 +35,8 @@ setup(
     ],
     keywords=['iostat'],
     author='Tetsuya Morimoto',
-    author_email='tetsuya dot morimoto at gmail dot com',
-    url='https://github.com/t2y/iostat-parser',
+    author_email='tetsuya.morimoto@gmail.com',
+    url='https://github.com/t2y/iostat-tool',
     license='Apache License 2.0',
     platforms=['unix', 'linux', 'osx', 'windows'],
     packages=['iostat'],

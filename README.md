@@ -16,6 +16,14 @@ $ man iostat
 
 ## How to install
 
+### for user
+
+```bash
+$ pip install iostat-tool
+```
+
+### for developer
+
 Create virtualenv to install `iostat-tool`.
 
 ```bash
@@ -125,7 +133,8 @@ optional arguments:
 
 This is sample image rendered by matplotlib.
 
-![](tests/fixtures/sample-iostat.png)
+![](https://github.com/t2y/iostat-tool/raw/master/tests/fixtures/sample-iostat.png)
+
 
 ### there is already an iostat.ouput as data file
 
