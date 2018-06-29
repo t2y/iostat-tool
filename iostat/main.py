@@ -55,8 +55,8 @@ def parse_csv_argument(subparsers):
         help='set dialect for csv writer, default is excel'
     )
     csv_parser.add_argument(
-        '--separator', action='store', choices=[_COMMA, _TAB], type=sep_type,
-        help='set separator, default is comma'
+        '--separator', action='store', type=sep_type,
+        help='set separator (choose from comma, tab), default is comma'
     )
 
 
