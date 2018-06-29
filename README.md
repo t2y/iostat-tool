@@ -28,8 +28,8 @@ Create virtualenv to install `iostat-tool`.
 
 ```bash
 $ mkdir virtualenvs
-$ virtualenv -p python3 virtualenvs/iostat
-$ source virtualenvs/iostat-tool/bin/activate
+$ virtualenv -p python3 virtualenvs/venv
+$ source virtualenvs/venv/bin/activate
 (venv) $
 ```
 
