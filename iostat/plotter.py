@@ -161,4 +161,4 @@ class Plotter(Renderer):
         plt.show(block=True)
 
     def save(self):
-        plt.savefig(self.args.figoutput)
+        plt.savefig(self.output)

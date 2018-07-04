@@ -109,4 +109,4 @@ class Scatter(Renderer):
 
     def save(self):
         self.set_vlines()
-        plt.savefig(self.args.figoutput)
+        plt.savefig(self.output)

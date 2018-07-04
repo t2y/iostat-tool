@@ -103,7 +103,7 @@ def parse_argument():
     parser.set_defaults(
         backend='Agg',
         data=None,
-        figoutput='iostat.png',
+        figoutput=None,
         figsize=None,
         output='iostat.log',
         # filter options

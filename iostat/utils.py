@@ -35,3 +35,19 @@ def add_suffix_to_name(path, suffix):
     names[0] = '%s_%s' % (names[0], suffix)
     name = '.'.join(names)
     return os.path.join(os.path.dirname(path), name)
+
+
+def make_output_file(path, ext):
+    """
+    >>> make_output_file('path/to/sample.data', 'csv')
+    'sample.csv'
+    >>> make_output_file('path/to/sample', 'png')
+    'sample.png'
+    >>> make_output_file('sample.data', 'png')
+    'sample.png'
+    """
+    filename = os.path.basename(path)
+    names = filename.split('.')
+    if len(names) > 0:
+        name = names[0]
+    return '%s.%s' % (name, ext)
