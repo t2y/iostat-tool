@@ -82,6 +82,7 @@ def parse_plot_argument(subparsers):
         plot_type=PLOT_TYPE_PLOTTER,
         subplots=DEVICE_SUBPLOTS,
         vlines=[],
+        x_datetime_format=None,
     )
 
     plot_parser.add_argument(
@@ -95,6 +96,10 @@ def parse_plot_argument(subparsers):
     plot_parser.add_argument(
         '--vlines', action='store', nargs='+', type=dt_type,
         help='set vertical line, format: %s' % _DATETIME_FORMAT_HELP
+    )
+    plot_parser.add_argument(
+        '--x-datetime-format', action='store', dest='x_datetime_format',
+        help='set datetime format for devices x-axis'
     )
 
 

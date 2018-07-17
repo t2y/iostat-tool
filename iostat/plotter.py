@@ -1,8 +1,9 @@
 import math
 from collections import defaultdict
 
-from matplotlib import pyplot as plt
+from matplotlib import dates as mdates
 from matplotlib import gridspec
+from matplotlib import pyplot as plt
 
 from .consts import AVGRQ_SZ, AVGQU_SZ, AWAIT, SVCTM
 from .consts import IO_RQM, IOPS, IO_TRANSFER, PERCENT_UTIL
@@ -43,6 +44,9 @@ class Plotter(Renderer):
                 break
             subplot = self.fig.add_subplot(gs[row, column])
             self.set_device_subplot_params(name, subplot)
+            if self.args.x_datetime_format is not None:
+                x_format = mdates.DateFormatter(self.args.x_datetime_format)
+                subplot.xaxis.set_major_formatter(x_format)
             self.subplots[name] = subplot
 
     def set_device_subplot_params(self, name, subplot):
