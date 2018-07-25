@@ -51,7 +51,7 @@ class Plotter(Renderer):
 
     def set_device_subplot_params(self, name, subplot):
         if name == IO_RQM:
-            subplot.set_title('io request queue merged')
+            subplot.set_title('io merged request counts per second')
             subplot.set_ylabel('counts')
         elif name == IOPS:
             subplot.set_title('iops')
