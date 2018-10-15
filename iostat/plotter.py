@@ -28,7 +28,7 @@ class Plotter(Renderer):
         self.fig.suptitle('iostat output')
 
         row_length = math.ceil(len(args.subplots) / 2.0)
-        gs = gridspec.GridSpec(row_length + 1, 2)
+        gs = gridspec.GridSpec(row_length + 1, 2, wspace=0.4)
 
         self.cpu = self.fig.add_subplot(gs[0, :])
         self.cpu.set_title('cpu average')
@@ -95,7 +95,7 @@ class Plotter(Renderer):
 
         for vline in self.args.vlines:
             self.cpu.axvline(vline, linestyle=':', linewidth=3, color='purple')
-        self.cpu.legend(loc=6)
+        self.cpu.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=-3)
 
     def set_device_data(self, data, device):
         def set_data_value(data, columns, disk_stat_data):
@@ -153,7 +153,7 @@ class Plotter(Renderer):
                 self.subplots[name].axvline(
                     vline, linestyle=':', linewidth=3, color='purple',
                 )
-            self.subplots[name].legend(loc=6)
+            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=-1)
 
     def plot(self):
         datetime_data = [i['date'] for i in self.stats]
