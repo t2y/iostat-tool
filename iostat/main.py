@@ -101,6 +101,10 @@ def parse_plot_argument(subparsers):
         '--x-datetime-format', action='store', dest='x_datetime_format',
         help='set datetime format for devices x-axis'
     )
+    plot_parser.add_argument(
+        '--title', action='store', dest='title', default='iostat output',
+        help='set title for graph'
+    )
     group = plot_parser.add_mutually_exclusive_group()
     group.add_argument(
         '--without-cpu', dest='with_cpu', action='store_false',

@@ -26,7 +26,7 @@ class Plotter(Renderer):
             figsize = (18, 14)
 
         self.fig = plt.figure(figsize=figsize)
-        self.fig.suptitle('iostat output')
+        self.fig.suptitle(self.args.title)
 
         if self.args.cpu_only:
             self.args.subplots = []
