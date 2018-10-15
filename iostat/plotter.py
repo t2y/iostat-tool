@@ -95,7 +95,7 @@ class Plotter(Renderer):
 
         for vline in self.args.vlines:
             self.cpu.axvline(vline, linestyle=':', linewidth=3, color='purple')
-        self.cpu.legend(loc=6)
+        self.cpu.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
 
     def set_device_data(self, data, device):
         def set_data_value(data, columns, disk_stat_data):
@@ -153,7 +153,7 @@ class Plotter(Renderer):
                 self.subplots[name].axvline(
                     vline, linestyle=':', linewidth=3, color='purple',
                 )
-            self.subplots[name].legend(loc=6)
+            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
 
     def plot(self):
         datetime_data = [i['date'] for i in self.stats]
