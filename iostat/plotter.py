@@ -19,6 +19,7 @@ class Plotter(Renderer):
     def __init__(self, args, stats):
         self.args = args
         self.stats = stats
+        self.subplot_borderaxespad=-1
 
         figsize = args.figsize
         if figsize is None:
@@ -42,7 +43,11 @@ class Plotter(Renderer):
                 name = args.subplots[i]
             except IndexError:
                 break
-            subplot = self.fig.add_subplot(gs[row, column])
+            if len(args.subplots) == 1:
+                subplot = self.fig.add_subplot(gs[row, :])
+                self.subplot_borderaxespad=-3
+            else:
+                subplot = self.fig.add_subplot(gs[row, column])
             self.set_device_subplot_params(name, subplot)
             if self.args.x_datetime_format is not None:
                 x_format = mdates.DateFormatter(self.args.x_datetime_format)
@@ -153,7 +158,7 @@ class Plotter(Renderer):
                 self.subplots[name].axvline(
                     vline, linestyle=':', linewidth=3, color='purple',
                 )
-            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=-1)
+            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=self.subplot_borderaxespad)
 
     def plot(self):
         datetime_data = [i['date'] for i in self.stats]
