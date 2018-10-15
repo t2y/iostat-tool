@@ -101,7 +101,15 @@ def parse_plot_argument(subparsers):
         '--x-datetime-format', action='store', dest='x_datetime_format',
         help='set datetime format for devices x-axis'
     )
-
+    group = plot_parser.add_mutually_exclusive_group()
+    group.add_argument(
+        '--without-cpu', dest='with_cpu', action='store_false',
+        help='don\'t plot CPU data'
+    )
+    group.add_argument(
+        '--cpu-only', dest='cpu_only', action='store_true',
+        help='plot only CPU data'
+    )
 
 def parse_argument():
     parser = argparse.ArgumentParser()
@@ -113,6 +121,8 @@ def parse_argument():
         output='iostat.log',
         # filter options
         disks=[],
+        with_cpu=True,
+        cpu_only=False,
         since=None,
         until=None,
         subcommand=SUB_COMMAND_MONITOR,

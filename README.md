@@ -110,6 +110,10 @@ optional arguments:
                         set subplots to show
   --vlines VLINES [VLINES ...]
                         set vertical line, format: yyyymmddHHMISS
+  --x-datetime-format X_DATETIME_FORMAT
+                        set datetime format for devices x-axis
+  --without-cpu         don't plot CPU data
+  --cpu-only            plot only CPU data
 ```
 
 #### monitor
