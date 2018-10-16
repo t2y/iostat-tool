@@ -19,30 +19,44 @@ class Plotter(Renderer):
     def __init__(self, args, stats):
         self.args = args
         self.stats = stats
+        self.subplot_borderaxespad=-1
 
         figsize = args.figsize
         if figsize is None:
             figsize = (18, 14)
 
         self.fig = plt.figure(figsize=figsize)
-        self.fig.suptitle('iostat output')
+        self.fig.suptitle(self.args.title)
 
+        if self.args.cpu_only:
+            self.args.subplots = []
+        
+        if self.args.with_cpu:
+            add_rows=1
+        else:
+            add_rows=0
+            
         row_length = math.ceil(len(args.subplots) / 2.0)
-        gs = gridspec.GridSpec(row_length + 1, 2, wspace=0.4)
+        gs = gridspec.GridSpec(row_length + add_rows, 2, wspace=0.4)
 
-        self.cpu = self.fig.add_subplot(gs[0, :])
-        self.cpu.set_title('cpu average')
-        self.cpu.set_ylim(0, 100)
-        self.cpu.set_ylabel('percent')
+        if args.with_cpu:
+            self.cpu = self.fig.add_subplot(gs[0, :])
+            self.cpu.set_title('cpu average')
+            self.cpu.set_ylim(0, 100)
+            self.cpu.set_ylabel('percent')
 
         self.subplots = {}
-        gs_range = [(i, j) for j in (0, 1) for i in range(1, row_length + 1)]
+        gs_range = [(i, j) for j in (0, 1) for i in range(add_rows, row_length + add_rows)]
         for i, (row, column) in enumerate(gs_range):
             try:
                 name = args.subplots[i]
             except IndexError:
                 break
-            subplot = self.fig.add_subplot(gs[row, column])
+            if len(args.subplots) == 1:
+                subplot = self.fig.add_subplot(gs[row, :])
+                self.subplot_borderaxespad=-3
+            else:
+                subplot = self.fig.add_subplot(gs[row, column])
             self.set_device_subplot_params(name, subplot)
             if self.args.x_datetime_format is not None:
                 x_format = mdates.DateFormatter(self.args.x_datetime_format)
@@ -153,13 +167,16 @@ class Plotter(Renderer):
                 self.subplots[name].axvline(
                     vline, linestyle=':', linewidth=3, color='purple',
                 )
-            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=-1)
+            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=self.subplot_borderaxespad)
 
     def plot(self):
         datetime_data = [i['date'] for i in self.stats]
-        self.plot_cpu(datetime_data)
-        self.plot_device(datetime_data)
-        plt.subplots_adjust(hspace=0.5)
+        if not self.args.cpu_only:
+            self.plot_device(datetime_data)
+        if self.args.with_cpu:
+            self.plot_cpu(datetime_data)
+        if not self.args.cpu_only and self.args.with_cpu:
+            plt.subplots_adjust(hspace=0.4)
 
     def show(self):
         plt.show(block=True)
