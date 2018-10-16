@@ -115,6 +115,7 @@ def parse_plot_argument(subparsers):
         help='plot only CPU data'
     )
 
+
 def parse_argument():
     parser = argparse.ArgumentParser()
     parser.set_defaults(

@@ -19,7 +19,7 @@ class Plotter(Renderer):
     def __init__(self, args, stats):
         self.args = args
         self.stats = stats
-        self.subplot_borderaxespad=-1
+        self.subplot_borderaxespad = -1
 
         figsize = args.figsize
         if figsize is None:
@@ -30,12 +30,12 @@ class Plotter(Renderer):
 
         if self.args.cpu_only:
             self.args.subplots = []
-        
+
         if self.args.with_cpu:
-            add_rows=1
+            add_rows = 1
         else:
-            add_rows=0
-            
+            add_rows = 0
+
         row_length = math.ceil(len(args.subplots) / 2.0)
         gs = gridspec.GridSpec(row_length + add_rows, 2, wspace=0.4)
 
@@ -46,7 +46,8 @@ class Plotter(Renderer):
             self.cpu.set_ylabel('percent')
 
         self.subplots = {}
-        gs_range = [(i, j) for j in (0, 1) for i in range(add_rows, row_length + add_rows)]
+        gs_range = [(i, j) for j in (0, 1)
+                    for i in range(add_rows, row_length + add_rows)]
         for i, (row, column) in enumerate(gs_range):
             try:
                 name = args.subplots[i]
@@ -54,7 +55,7 @@ class Plotter(Renderer):
                 break
             if len(args.subplots) == 1:
                 subplot = self.fig.add_subplot(gs[row, :])
-                self.subplot_borderaxespad=-3
+                self.subplot_borderaxespad = -3
             else:
                 subplot = self.fig.add_subplot(gs[row, column])
             self.set_device_subplot_params(name, subplot)
@@ -109,7 +110,8 @@ class Plotter(Renderer):
 
         for vline in self.args.vlines:
             self.cpu.axvline(vline, linestyle=':', linewidth=3, color='purple')
-        self.cpu.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=-3)
+        self.cpu.legend(
+            bbox_to_anchor=(1.04, 0.5), loc='center left', borderaxespad=-3)
 
     def set_device_data(self, data, device):
         def set_data_value(data, columns, disk_stat_data):
@@ -167,7 +169,10 @@ class Plotter(Renderer):
                 self.subplots[name].axvline(
                     vline, linestyle=':', linewidth=3, color='purple',
                 )
-            self.subplots[name].legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=self.subplot_borderaxespad)
+            self.subplots[name].legend(
+                bbox_to_anchor=(1.04, 0.5), loc='center left',
+                borderaxespad=self.subplot_borderaxespad
+            )
 
     def plot(self):
         datetime_data = [i['date'] for i in self.stats]
