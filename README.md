@@ -157,7 +157,8 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
   * filter `io_rqm` and `iops` with `--subplots`
 
 ```bash
-(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png plot --subplots io_rqm iops
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png \
+  plot --subplots io_rqm iops
 ```
 
 * show any range of date time
@@ -165,14 +166,37 @@ my-iostat.png: PNG image data, 1800 x 1400, 8-bit/color RGBA, non-interlaced
   * filter until 2018-06-13 14:11:30 with `--until`
 
 ```bash
-(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png \
+  --since 20180613141100 --until 20180613141130 plot --subplots await svctm
 ```
 
 * show vertical lines into graph
   * 2018-06-13 14:11:10 and 2018-06-13 14:11:20 with `--vlines`
 
 ```bash
-(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png --since 20180613141100 --until 20180613141130 plot --subplots await svctm --vlines 20180613141110 20180613141120
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png \
+  --since 20180613141100 --until 20180613141130 plot --subplots await svctm --vlines 20180613141110 20180613141120
+```
+
+* show only CPU-related data
+
+```bash
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png \
+  plot --cpu-only
+```
+
+* show only one subplot, without CPU information
+
+```bash
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png \
+  plot --subplots await --without-cpu
+```
+
+* generate graph with custom title
+
+```bash
+(venv) $ iostat-cli --data tests/fixtures/sample_iostat.output --disk sda --fig-output my-iostat.png \
+  plot --title 'my custom test'
 ```
 
 #### csv
