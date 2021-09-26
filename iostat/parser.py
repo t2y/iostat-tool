@@ -1,14 +1,9 @@
 import os
-import re
-from datetime import datetime
 
 from .filters import get_filters
+from .utils import get_iostat_date_format
 from .utils import get_logger
-
-IOSTAT_DATE_FORMAT = '%m/%d/%Y %I:%M:%S %p'
-IOSTAT_DATE = re.compile(r"""
-(?P<date>^\d{2}/\d{2}/\d{4}\s*\d{2}:\d{2}:\d{2}\s*(AM|PM))
-""", re.VERBOSE)
+from .utils import parse_datetime
 
 log = get_logger()
 
@@ -62,13 +57,13 @@ class Parser:
         elif self.state == self.DEVICE:
             self.parse_device_stat(line)
         else:
-            m = re.search(IOSTAT_DATE, line)
-            if m is not None:
+            date_format = get_iostat_date_format(line)
+            if date_format is not None:
                 if self.date is not None:
                     yield self.make_stat()
 
                 self.init_stat()
-                self.date = datetime.strptime(line, IOSTAT_DATE_FORMAT)
+                self.date = parse_datetime(line, fmt=date_format)
                 self.state = self.DATE
             else:
                 if line.startswith('avg-cpu:'):
