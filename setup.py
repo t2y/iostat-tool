@@ -1,6 +1,5 @@
 import os
 import re
-import sys
 
 from setuptools import setup
 
@@ -44,7 +43,7 @@ setup(
     include_package_data=True,
     install_requires=['matplotlib'],
     tests_require=['tox', 'pytest', 'pytest-pep8', 'pytest-flakes'],
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'iostat-cli=iostat.main:main',
         ],
