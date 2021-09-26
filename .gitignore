@@ -2,6 +2,7 @@ iostat.log
 iostat.png
 iostat_cpu.csv
 iostat_devices.csv
+*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

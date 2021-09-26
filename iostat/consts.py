@@ -15,6 +15,7 @@ PLOT_TYPES = [
 
 # device subplots parameters
 IO_RQM = 'io_rqm'
+PERCENT_IO_RQM = '%io_rqm'
 IOPS = 'iops'
 IO_TRANSFER = 'io_transfer'
 PERCENT_UTIL = '%util'
@@ -24,6 +25,7 @@ AWAIT = 'await'
 SVCTM = 'svctm'
 
 DEVICE_SUBPLOTS = [
-    IO_RQM, IOPS, IO_TRANSFER, PERCENT_UTIL,
+    IO_RQM, PERCENT_IO_RQM,
+    IOPS, IO_TRANSFER, PERCENT_UTIL,
     AVGRQ_SZ, AVGQU_SZ, AWAIT, SVCTM,
 ]

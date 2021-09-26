@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 
 from .consts import AVGRQ_SZ, AVGQU_SZ, AWAIT, SVCTM
 from .consts import IO_RQM, IOPS, IO_TRANSFER, PERCENT_UTIL
+from .consts import PERCENT_IO_RQM
 from .renderer import Renderer
 from .utils import get_logger
 
@@ -36,7 +37,8 @@ class Plotter(Renderer):
         else:
             add_rows = 0
 
-        row_length = math.ceil(len(args.subplots) / 2.0)
+        self._update_args_subplots()
+        row_length = math.ceil(len(self.args.subplots) / 2.0)
         gs = gridspec.GridSpec(row_length + add_rows, 2, wspace=0.4)
 
         if args.with_cpu:
@@ -50,10 +52,10 @@ class Plotter(Renderer):
                     for i in range(add_rows, row_length + add_rows)]
         for i, (row, column) in enumerate(gs_range):
             try:
-                name = args.subplots[i]
+                name = self.args.subplots[i]
             except IndexError:
                 break
-            if len(args.subplots) == 1:
+            if len(self.args.subplots) == 1:
                 subplot = self.fig.add_subplot(gs[row, :])
                 self.subplot_borderaxespad = -3
             else:
@@ -64,10 +66,26 @@ class Plotter(Renderer):
                 subplot.xaxis.set_major_formatter(x_format)
             self.subplots[name] = subplot
 
+    def _update_args_subplots(self):
+        if self.args.cpu_only:
+            return
+        if not self.has_stat_data('device'):
+            return
+        columns = self.stats[0]['device']['columns']
+        # TODO: check stats columns for all cases
+        #       only PERCENT_IO_RQM in new iostat outputs at this time
+        for col in ['%rrqm', '%wrqm']:
+            if col in columns:
+                return
+        self.args.subplots.remove(PERCENT_IO_RQM)
+
     def set_device_subplot_params(self, name, subplot):
         if name == IO_RQM:
             subplot.set_title('io merged request counts per second')
             subplot.set_ylabel('counts')
+        elif name == PERCENT_IO_RQM:
+            subplot.set_title('percentage of requests merged together')
+            subplot.set_ylabel('percent')
         elif name == IOPS:
             subplot.set_title('iops')
             subplot.set_ylabel('counts')
@@ -128,6 +146,8 @@ class Plotter(Renderer):
                 for name in data:
                     if name == IO_RQM:
                         columns = ['rrqm/s', 'wrqm/s']
+                    elif name == PERCENT_IO_RQM:
+                        columns = ['%rrqm', '%wrqm']
                     elif name == IOPS:
                         columns = ['r/s', 'w/s']
                     elif name == IO_TRANSFER:
@@ -139,9 +159,11 @@ class Plotter(Renderer):
                     elif name == PERCENT_UTIL:
                         columns = ['%util']
                     elif name == AVGRQ_SZ:
-                        columns = ['avgrq-sz']
+                        columns = [
+                            'avgrq-sz', 'areq-sz', 'rareq-sz', 'wareq-sz'
+                        ]
                     elif name == AVGQU_SZ:
-                        columns = ['avgqu-sz']
+                        columns = ['avgqu-sz', 'aqu-sz']
                     elif name == AWAIT:
                         columns = ['await', 'r_await', 'w_await']
                     elif name == SVCTM:

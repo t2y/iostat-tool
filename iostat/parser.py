@@ -44,7 +44,7 @@ class Parser:
         self.device_stat['stats'].append(stat)
 
     def parse_columns(self, d, line):
-        d['columns'] = line[line.find(':') + 1:].strip().split()
+        d['columns'] = line.strip().split()[1:]
 
     def _parse(self, line):
         if line == '\n':
@@ -69,7 +69,7 @@ class Parser:
                 if line.startswith('avg-cpu:'):
                     self.parse_columns(self.cpu_stat, line)
                     self.state = self.CPU
-                elif line.startswith('Device:'):
+                elif line.startswith('Device'):
                     self.parse_columns(self.device_stat, line)
                     self.state = self.DEVICE
                 else:
