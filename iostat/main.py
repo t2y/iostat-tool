@@ -10,7 +10,7 @@ from .parser import Parser
 from .utils import get_logger
 from .utils import parse_datetime
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 _DATETIME_FORMAT_HELP = 'yyyymmddHHMISS'
 
 _COMMA = 'comma'
