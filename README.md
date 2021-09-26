@@ -4,7 +4,7 @@ parse and visualize iostat output
 
 ## Requirements
 
-* Python >= 3.4
+* Python >= 3.6
   * iostat-tool uses [asyncio](https://docs.python.org/3/library/asyncio.html) to monitor output of iostat
 * [Matplotlib](https://matplotlib.org/)
 * Support output of iostat for Linux only
@@ -24,12 +24,12 @@ $ pip install iostat-tool
 
 ### for developer
 
-Create virtualenv to install `iostat-tool`.
+Create venv to install `iostat-tool`.
 
 ```bash
-$ mkdir virtualenvs
-$ virtualenv -p python3 virtualenvs/venv
-$ source virtualenvs/venv/bin/activate
+$ mkdir venvs
+$ python3 -m venv venvs/venv
+$ source venvs/venv/bin/activate
 (venv) $
 ```
 
