@@ -12,18 +12,17 @@ from .utils import get_logger
 log = get_logger()
 
 
-@asyncio.coroutine
-def run_process(future, command_and_args, queue):
+async def run_process(future, command_and_args, queue):
     create = asyncio.create_subprocess_exec(
         *command_and_args,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.STDOUT
     )
-    proc = yield from create
+    proc = await create
     while True:
-        line = yield from proc.stdout.readline()
+        line = await proc.stdout.readline()
         if queue.full():
-            yield from asyncio.sleep(1)
+            await asyncio.sleep(1)
         else:
             queue.put_nowait(line)
 
@@ -37,15 +36,14 @@ def run_process(future, command_and_args, queue):
     future.set_result(proc.returncode)
 
 
-@asyncio.coroutine
-def read_stream(queue, args):
+async def read_stream(queue, args):
     parser = Parser(args)
     scatter = Scatter(args)
     with open(args.output, 'wb') as f:
         try:
             while True:
                 if queue.empty():
-                    yield from asyncio.sleep(1)
+                    await asyncio.sleep(1)
                 else:
                     # TODO: it might miss rest of last queue entries
                     #       when the process finished
