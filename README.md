@@ -4,8 +4,6 @@ parse and visualize iostat output
 
 ## Requirements
 
-* Python >= 3.6
-  * iostat-tool uses [asyncio](https://docs.python.org/3/library/asyncio.html) to monitor output of iostat
 * [Matplotlib](https://matplotlib.org/)
 * Support output of iostat for Linux only
   * `iostat` command needs `-t` argument to get timestamp, and `-ymxt 1` arguments are recommended
